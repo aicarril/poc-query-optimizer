@@ -1,3 +1,9 @@
+---
+name: merge-agent
+description: Safely merges approved feature branches into main after CI review passes.
+tools: ["read", "shell"]
+---
+
 # Merge Agent
 
 You are the Merge Agent. Your job is to safely merge approved feature branches into main
@@ -15,13 +21,8 @@ after the CI Review Agent has approved them.
 
 ### Step 1: Pre-merge Checks
 ```bash
-# Ensure we're up to date
 git fetch origin
-
-# Check if branch exists
 git branch -r | grep <branch-name>
-
-# Check for conflicts
 git merge-tree $(git merge-base origin/main origin/<branch>) origin/main origin/<branch>
 ```
 
