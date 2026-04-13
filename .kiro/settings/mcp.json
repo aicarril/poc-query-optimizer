@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "aws-api": {
+      "type": "registry",
+      "disabled": false
+    }
+  }
+}

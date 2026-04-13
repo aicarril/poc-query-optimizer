@@ -1,0 +1,44 @@
+Resources:
+   MyBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+         BucketName: my-app-bucket
+         VersioningConfiguration:
+            Status: Enabled
+         Tags:
+            - Key: Name
+              Value: my-app-bucket
+
+   MyLambda:
+      Type: AWS::Lambda::Function
+      Properties:
+         FunctionName: process-orders
+         Runtime: python3.11
+         Handler: index.handler
+         Timeout: 300
+         MemorySize: 512
+         Environment:
+            Variables:
+               DEBUG: true
+               ENABLE_CACHE: yes
+               MAX_RETRIES: 3
+
+   MyRole:
+      Type: AWS::IAM::Role
+      Properties:
+         RoleName: lambda-role
+         AssumeRolePolicyDocument:
+            Version: 2012-10-17
+            Statement:
+               - Effect: Allow
+                 Principal:
+                    Service: lambda.amazonaws.com
+                 Action: sts:AssumeRole
+         Policies:
+            - PolicyName: full-access
+              PolicyDocument:
+                 Version: 2012-10-17
+                 Statement:
+                    - Effect: Allow
+                      Action: "*"
+                      Resource: "*"

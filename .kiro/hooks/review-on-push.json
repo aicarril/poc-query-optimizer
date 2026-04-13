@@ -1,0 +1,13 @@
+{
+  "name": "Auto Review on Code Change",
+  "version": "1.0.0",
+  "description": "When code files are edited, trigger the CI Review Agent to validate against coding standards and auto-fix issues",
+  "when": {
+    "type": "fileEdited",
+    "patterns": ["*.py", "*.yaml", "*.yml", "*.sql", "*.ts", "*.tsx"]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A code file was just edited. As the CI Review Agent:\n\n1. Check the changed file against the coding standards in the steering docs\n2. Identify any violations (formatting, style, missing type hints, YAML issues, SQL anti-patterns)\n3. If issues are auto-fixable, fix them directly\n4. If issues need human judgment, report them clearly\n5. For Python: check type hints, docstrings, import order, no print(), no bare except\n6. For YAML: check indentation, quoted booleans, document separator, trailing whitespace\n7. For SQL: check uppercase keywords, explicit columns, partition pruning, JOIN aliases\n\nBe concise in your report. Only mention actual issues found."
+  }
+}

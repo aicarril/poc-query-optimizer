@@ -1,0 +1,13 @@
+{
+  "name": "YAML Lint Replacement",
+  "version": "1.0.0",
+  "description": "Replaces yamllint — validates and auto-fixes YAML files on save",
+  "when": {
+    "type": "fileEdited",
+    "patterns": ["*.yaml", "*.yml"]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A YAML file was just saved. Validate it against these rules:\n\n1. Uses 2-space indentation (no tabs)\n2. Strings that look like booleans are quoted ('yes', 'no', 'true', 'false', 'on', 'off')\n3. Has document separator --- at the top\n4. No trailing whitespace on any line\n5. Multi-line strings use block style (| or >)\n6. If it's a CloudFormation template, check for Description field and resource tags\n\nIf any issues are found, fix them directly in the file. Report what you fixed."
+  }
+}
