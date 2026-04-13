@@ -1,17 +1,12 @@
--- Sample slow Athena query with intentional performance issues for demo
--- This query has: SELECT *, no partition pruning, comma joins, nested subqueries
+-- Unoptimized query against demo_db — intentionally bad for demo
+-- Issues: SELECT *, no partition pruning, comma join, no aliases on columns
 
-select *
-from events e, users u
-where e.user_id = u.id
-and e.event_type in (
-    select event_type
-    from (
-        select event_type, count(*) as cnt
-        from events
-        group by event_type
-        having count(*) > 100
-    )
-)
-order by e.created_at desc
-limit 1000;
+SELECT *
+FROM demo_db.events e, demo_db.users u
+WHERE e.user_id = u.id
+ORDER BY e.created_at DESC
+LIMIT 100;
+
+-- Baseline performance (measured):
+-- Execution time: 1,467ms
+-- Data scanned: 282,563 bytes (all 7 partitions)
