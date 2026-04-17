@@ -34,8 +34,8 @@ def lambda_handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
     )
 
     agent = event.get("agent", os.environ.get("AGENT_NAME", ""))
-    if agent:
-        prompt = f"/{agent} {prompt}"
+    # For kiro-cli, we use --agent flag instead of /agent prefix
+    agent_flag = ["--agent", agent] if agent else []
 
     trust_mode = event.get("trust_mode", "trust-all-tools")
 
@@ -47,7 +47,7 @@ def lambda_handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
                 "kiro-cli", "chat",
                 "--no-interactive",
                 f"--{trust_mode}",
-                "--require-mcp-startup",
+                *agent_flag,
                 prompt,
             ],
             capture_output=True,
