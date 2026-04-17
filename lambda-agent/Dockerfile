@@ -1,7 +1,7 @@
 FROM public.ecr.aws/lambda/python:3.12
 
-# Install dependencies
-RUN dnf install -y git unzip curl && dnf clean all
+# Install dependencies (curl-minimal is already in the base image)
+RUN dnf install -y git unzip && dnf clean all
 
 # Install Kiro CLI (non-interactive)
 RUN curl -fsSL https://cli.kiro.dev/install -o /tmp/install-kiro.sh && \
